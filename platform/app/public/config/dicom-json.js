@@ -1,30 +1,29 @@
-// @ts-expect-error - No types for this file
+// @ts-expect-error - OHIF config is injected at runtime
 window.config = {
   routerBasename: '/',
+  showStudyList: true,
   extensions: [],
   modes: [],
-  showStudyList: true,
-  // Esta es la clave para que lea tu API de Next.js
   dataSources: [
     {
-      namespace: '@ohif/extension-default.dataSourcesModule.dicomjson',
-      sourceName: 'dicomjson',
+      friendlyName: 'Cadia DICOMWeb',
+      namespace: '@ohif/extension-default.dataSourcesModule.dicomweb',
+      sourceName: 'dicomweb',
       configuration: {
-        friendlyName: 'CADIA API',
-        name: 'json',
+        name: 'Cadia',
+        // ¡IMPORTANTE!: Estas URLs deben ser de producción
+        wadoUriRoot: 'https://cadia.pe/api/dicomweb',
+        qidoRoot: 'https://cadia.pe/api/dicomweb',
+        wadoRoot: 'https://cadia.pe/api/dicomweb',
+        qidoSupportsIncludeField: true,
+        supportsReject: false,
+        imageRendering: 'wadors',
+        thumbnailRendering: 'wadors',
+        enableStudyLazyLoad: true,
+        supportsFuzzyMatching: false,
+        supportsWildcard: false,
       },
     },
   ],
-  defaultDataSourceName: 'dicomjson',
-  // --- FIX PARA ERRORES DE WINDOWS/WEBGPU/ONNX ---
-  disableBrowserSupportCheck: true,
-  omitQuailityControl: true,
-  // Desactivamos segmentación avanzada para evitar el error de __filename
-  activeSegmentation: false,
-  showWarningMessageForBrowser: false,
-  showNavigation: true,
-  showDownload: true,
-  // Configuraciones de renderizado
-  maxNumberOfWebWorkers: 4,
-  acceptHeader: ['application/dicom+json', 'application/octet-stream'],
+  defaultDataSourceName: 'dicomweb',
 };
